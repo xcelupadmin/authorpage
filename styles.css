@@ -348,3 +348,9 @@ header.hero.person h1 { max-width: none; }
   .work-thumb { width: 72px; height: 108px; }
   .work-thumb.ix img { width: 58px; }
 }
+
+/* NOTE — every page links this file as styles.css?v=YYYY-MM-DD.
+   GitHub Pages lets browsers reuse a cached copy for 10 minutes, so a
+   page can arrive with the previous stylesheet and render unstyled
+   (this happened with the person-first hero). Whenever this file
+   changes, bump ?v= on the <link> in every .html file. */
