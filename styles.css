@@ -303,3 +303,48 @@ a.ix-plate-link { display: block; }
 }
 .link-row { display: flex; flex-wrap: wrap; gap: 14px 32px; }
 .cta-band .hero-cta { margin-top: 0; }
+
+/* ---------- Home: person-first hero ----------
+   The home page opens on the author, with his two bodies of work given
+   equal weight beneath the name. The book's eye motif stays on the book
+   itself; the hero carries no single work's imagery. */
+header.hero.person { padding: 96px 24px 84px; }
+header.hero.person h1 { max-width: none; }
+.works {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px; max-width: 900px; margin: 56px auto 0; text-align: left;
+}
+@media (max-width: 780px) { .works { grid-template-columns: 1fr; max-width: 520px; } }
+.work {
+  display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 24px; align-items: center;
+  border: 1px solid var(--stone-edge);
+  background: rgba(19, 28, 43, 0.72);
+  padding: 22px 24px;
+  color: var(--sandstone);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.work:hover { border-color: var(--lamp-deep); background: var(--stone); color: var(--sandstone); }
+.work:hover .text-link { color: var(--sandstone); }
+.work-thumb {
+  width: 92px; height: 138px;               /* the cover's 2:3, so both cards sit level */
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--stone-edge);
+  box-shadow: 0 0 30px rgba(229, 156, 82, 0.12), 0 14px 28px rgba(0,0,0,0.5);
+}
+.work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.work-thumb.ix { background: #efe6d0; }     /* the mark needs its parchment ground */
+.work-thumb.ix img { width: 74px; height: auto; object-fit: contain; }
+.work-copy { display: block; }
+.work-kind {
+  display: block; font-family: "Marcellus", serif;
+  font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--lamp); margin-bottom: 6px;
+}
+.work-title { display: block; font-family: "Marcellus", serif; font-size: 1.45rem; line-height: 1.25; margin-bottom: 8px; }
+.work-line { display: block; font-size: 1rem; line-height: 1.55; color: var(--sandstone-dim); margin-bottom: 12px; }
+.work .text-link { display: inline-block; color: var(--lamp); }
+@media (max-width: 420px) {
+  .work { grid-template-columns: 72px minmax(0, 1fr); gap: 16px; padding: 18px; }
+  .work-thumb { width: 72px; height: 108px; }
+  .work-thumb.ix img { width: 58px; }
+}
