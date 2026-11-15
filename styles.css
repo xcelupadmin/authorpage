@@ -349,7 +349,7 @@ header.hero.person h1 { max-width: none; }
   .work-thumb.ix img { width: 58px; }
 }
 
-/* ---------- BizCogniX ----------
+/* ---------- Bizcognix ----------
    The official mark is a navy rounded square, already built for a dark
    field, so it sits directly on this palette — no parchment plate. */
 .bx-plate {
@@ -381,7 +381,7 @@ a.bx-plate-link { display: block; }
    980px they return to the side-by-side card used for two works. */
 .works.three { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1080px; }
 @media (min-width: 981px) {
-  .works.three .work { grid-template-columns: 1fr; gap: 18px; align-items: start; }
+  .works.three .work { grid-template-columns: 1fr; gap: 18px; align-items: start; justify-items: center; text-align: center; }
 }
 @media (max-width: 980px) { .works.three { grid-template-columns: 1fr; max-width: 520px; } }
 @media (max-width: 420px) { .works.three .work-thumb.bx img { width: 48px; } }
