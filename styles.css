@@ -1,3 +1,9 @@
+/* =========================================================
+   jaygontu.com — "modern, but knows traditions"
+   Night-stone palette from the book cover, carved-stone
+   hairlines, kolam dots, temple-niche frames and lamp glow,
+   set on a clean modern grid.
+   ========================================================= */
 :root {
   --basalt: #0b111c;        /* night sky, sampled from the cover */
   --stone: #131c2b;         /* raised night stone */
@@ -6,234 +12,393 @@
   --sandstone-dim: #a9a08c; /* secondary text */
   --lamp: #e59c52;          /* cover amber */
   --lamp-deep: #a76f33;
-  --max: 1080px;
+  --lamp-glow: rgba(229, 156, 82, 0.14);
+  --max: 1120px;
+  --radius: 6px;
+  --serif: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  --inscribe: "Marcellus", "Cormorant Garamond", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+
+  /* kolam: a dot grid with looping carved lines */
+  --kolam: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ecdfc6' stroke-opacity='.035'%3E%3Cpath d='M32 8C45 8 56 19 56 32S45 56 32 56 8 45 8 32 19 8 32 8Z'/%3E%3Cpath d='M32 0 64 32 32 64 0 32Z'/%3E%3C/g%3E%3Cg fill='%23ecdfc6' fill-opacity='.07'%3E%3Ccircle cx='32' cy='32' r='1.3'/%3E%3Ccircle cx='0' cy='0' r='1.3'/%3E%3Ccircle cx='64' cy='0' r='1.3'/%3E%3Ccircle cx='0' cy='64' r='1.3'/%3E%3Ccircle cx='64' cy='64' r='1.3'/%3E%3C/g%3E%3C/svg%3E");
+  /* small lotus-diamond ornament for dividers */
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='16' viewBox='0 0 64 16'%3E%3Cg fill='none' stroke='%23e59c52'%3E%3Cpath d='M32 1.5 38.5 8 32 14.5 25.5 8Z'/%3E%3Cpath d='M32 5 35 8 32 11 29 8Z' fill='%23e59c52'/%3E%3Cpath d='M20 8h-6M50 8h-6' stroke-opacity='.6'/%3E%3C/g%3E%3Cg fill='%23e59c52'%3E%3Ccircle cx='10' cy='8' r='1.2'/%3E%3Ccircle cx='54' cy='8' r='1.2'/%3E%3Ccircle cx='4' cy='8' r='.8' fill-opacity='.6'/%3E%3Ccircle cx='60' cy='8' r='.8' fill-opacity='.6'/%3E%3C/g%3E%3C/svg%3E");
+  /* toran: a garland of small temple arches */
+  --toran: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='18' viewBox='0 0 40 18'%3E%3Cpath d='M0 1h40M2 1c0 9 8 13 18 13S38 10 38 1' fill='none' stroke='%23e59c52' stroke-opacity='.35'/%3E%3Ccircle cx='20' cy='14' r='1.6' fill='%23e59c52' fill-opacity='.55'/%3E%3C/svg%3E");
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
 body {
-  background: var(--basalt);
+  background-color: var(--basalt);
+  background-image: var(--kolam);
+  background-attachment: fixed;
   color: var(--sandstone);
-  font-family: "EB Garamond", Georgia, serif;
-  font-size: 1.125rem;
-  line-height: 1.7;
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+img { max-width: 100%; }
+em { font-family: var(--serif); font-size: 1.12em; font-style: italic; }
 
-a { color: var(--lamp); text-decoration: none; }
+::selection { background: rgba(229, 156, 82, 0.35); color: var(--sandstone); }
+
+a { color: var(--lamp); text-decoration: none; transition: color .2s ease; }
 a:hover { color: var(--sandstone); }
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--lamp);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 
-/* ---------- Nav ---------- */
+/* ---------- Nav: sticky, translucent ---------- */
 nav.site-nav {
-  position: sticky; top: 0; z-index: 10;
-  background: rgba(11, 17, 28, 0.92);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--stone-edge);
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(11, 17, 28, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+nav.site-nav::after {               /* carved hairline, lit at the centre */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--stone-edge) 15%, rgba(229,156,82,.45) 50%, var(--stone-edge) 85%, transparent);
 }
 .nav-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 24px; max-width: var(--max); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 16px 24px; max-width: var(--max); margin: 0 auto;
 }
 .brand {
-  font-family: "Marcellus", serif;
-  font-size: 1.15rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--inscribe);
+  font-size: 1.05rem; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--sandstone);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.brand::before {                    /* tiny lamp-lit diamond */
+  content: ""; width: 7px; height: 7px; transform: rotate(45deg);
+  background: var(--lamp); box-shadow: 0 0 10px rgba(229,156,82,.8);
 }
 a.brand:hover { color: var(--lamp); }
-.nav-links { display: flex; gap: 28px; font-size: 0.95rem; letter-spacing: 0.06em; }
-.nav-links a { color: var(--sandstone-dim); padding-bottom: 4px; }
-.nav-links a:hover { color: var(--lamp); }
-.nav-links a.active { color: var(--lamp); border-bottom: 1px solid var(--lamp); }
-@media (max-width: 640px) {
-  .nav-inner { flex-direction: column; gap: 12px; }
-  .nav-links { gap: 18px; font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
+.nav-links { position: relative; display: flex; gap: 6px; font-size: 0.86rem; letter-spacing: 0.02em; font-weight: 500; }
+.nav-links a {
+  color: var(--sandstone-dim); padding: 7px 12px; border-radius: 999px;
+  transition: color .2s ease, background .2s ease;
 }
+.nav-links a:hover { color: var(--sandstone); background: rgba(236, 223, 198, 0.06); }
+.nav-links a.active { color: var(--lamp); background: rgba(229, 156, 82, 0.1); box-shadow: inset 0 0 0 1px rgba(229,156,82,.28); }
+@media (max-width: 900px) {
+  .nav-inner { flex-direction: column; align-items: stretch; gap: 6px; padding: 12px 0 10px; }
+  .brand { align-self: center; }
+  .nav-links {
+    overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start;
+    padding: 2px 20px; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { white-space: nowrap; flex: none; }
+}
+@media (min-width: 640px) and (max-width: 900px) { .nav-links { justify-content: center; } }
 
 /* ---------- Heroes ---------- */
 header.hero {
   position: relative;
-  padding: 110px 24px 90px;
+  padding: 120px 24px 104px;
   text-align: center;
   overflow: hidden;
+  isolation: isolate;
   background:
-    radial-gradient(ellipse 60% 45% at 50% 38%, rgba(229, 156, 82, 0.13), transparent 70%),
-    var(--basalt);
+    radial-gradient(ellipse 55% 50% at 50% 30%, rgba(229, 156, 82, 0.16), transparent 70%),
+    linear-gradient(180deg, rgba(11,17,28,0) 60%, var(--basalt));
 }
-header.hero.compact { padding: 80px 24px 64px; }
+header.hero::before {               /* faint carved mandala behind the name */
+  content: ""; position: absolute; z-index: -1;
+  left: 50%; top: 50%; width: min(860px, 150vw); aspect-ratio: 1;
+  transform: translate(-50%, -54%);
+  background: url("mandala.svg") center / contain no-repeat;
+  opacity: 0.3;
+  -webkit-mask-image: radial-gradient(circle, #000 35%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 35%, transparent 70%);
+  animation: turn 420s linear infinite;
+}
+header.hero::after {                /* ornament closing the hero */
+  content: ""; position: absolute; left: 50%; bottom: 34px; width: 64px; height: 16px;
+  transform: translateX(-50%); background: var(--ornament) center / contain no-repeat; opacity: .8;
+}
+header.hero.person::after { bottom: 30px; }
+@keyframes turn { to { transform: translate(-50%, -54%) rotate(360deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+header.hero > * { animation: rise .9s var(--ease) both; }
+header.hero > :nth-child(2) { animation-delay: .08s; }
+header.hero > :nth-child(3) { animation-delay: .16s; }
+header.hero > :nth-child(4) { animation-delay: .26s; }
+header.hero > :nth-child(5) { animation-delay: .34s; }
+
+header.hero.compact { padding: 96px 24px 92px; }
 .eye {
   width: 130px; height: auto; margin: 0 auto 42px; display: block;
   opacity: 0.9;
 }
 .eyebrow {
-  font-family: "Marcellus", serif;
-  font-size: 0.82rem; letter-spacing: 0.32em; text-transform: uppercase;
+  font-family: var(--inscribe);
+  font-size: 0.8rem; letter-spacing: 0.34em; text-transform: uppercase;
   color: var(--lamp); margin-bottom: 22px;
+  display: flex; align-items: center; justify-content: center; gap: 16px;
 }
+.eyebrow::before, .eyebrow::after {
+  content: ""; width: 44px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lamp-deep));
+}
+.eyebrow::after { background: linear-gradient(90deg, var(--lamp-deep), transparent); }
 h1 {
-  font-family: "Marcellus", serif;
-  font-weight: 400;
-  font-size: clamp(2.4rem, 6vw, 4.4rem);
-  line-height: 1.12;
-  letter-spacing: 0.015em;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(3rem, 8vw, 5.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.005em;
   max-width: 16ch; margin: 0 auto;
+  text-shadow: 0 0 60px rgba(229, 156, 82, 0.18);
 }
-header.hero.compact h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+header.hero.compact h1 { font-size: clamp(2.5rem, 6.4vw, 4.25rem); max-width: 22ch; }
+h1, h2, .hero-sub, .work-title { text-wrap: balance; }
 .hero-sub {
   margin: 26px auto 0;
-  max-width: 46ch;
-  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  max-width: 50ch;
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.3vw, 1.55rem);
+  line-height: 1.5;
   font-style: italic;
   color: var(--sandstone-dim);
 }
-.hero-cta { margin-top: 44px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+.hero-cta { margin-top: 44px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .btn {
-  display: inline-block;
-  font-family: "Marcellus", serif;
-  font-size: 0.95rem; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 15px 34px;
-  border: 1px solid var(--lamp-deep);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--inscribe);
+  font-size: 0.88rem; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 15px 32px;
+  border: 1px solid rgba(229, 156, 82, 0.55);
+  border-radius: 4px;
   color: var(--lamp);
-  transition: background 0.25s ease, color 0.25s ease;
+  background: rgba(229, 156, 82, 0.04);
+  transition: background .25s ease, color .25s ease, box-shadow .25s ease, transform .25s var(--ease), border-color .25s ease;
 }
-.btn:hover { background: var(--lamp); color: var(--basalt); }
-.btn.solid { background: var(--lamp); color: var(--basalt); }
-.btn.solid:hover { background: var(--sandstone); border-color: var(--sandstone); }
+.btn:hover { background: var(--lamp); color: var(--basalt); box-shadow: 0 10px 34px rgba(229,156,82,.28); transform: translateY(-2px); }
+.btn.solid {
+  background: linear-gradient(180deg, #eeaa62, var(--lamp) 55%, #d88c42);
+  border-color: var(--lamp); color: var(--basalt);
+  box-shadow: 0 0 0 4px rgba(229,156,82,.08), 0 10px 30px rgba(229,156,82,.18);
+}
+.btn.solid:hover { background: var(--sandstone); border-color: var(--sandstone); color: var(--basalt); }
 
 /* ---------- Section scaffolding ---------- */
-section { padding: 90px 0; border-top: 1px solid var(--stone-edge); }
-section.no-rule { border-top: none; }
+section { position: relative; padding: 104px 0; }
+section::before {                   /* ornamental divider instead of a flat rule */
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: min(var(--max), calc(100% - 48px)); height: 16px; margin-top: -8px;
+  background:
+    var(--ornament) center / 64px 16px no-repeat,
+    linear-gradient(90deg, transparent, var(--stone-edge) 20%, var(--stone-edge) calc(50% - 44px), transparent calc(50% - 44px), transparent calc(50% + 44px), var(--stone-edge) calc(50% + 44px), var(--stone-edge) 80%, transparent) center / 100% 1px no-repeat;
+}
+section.no-rule::before { display: none; }
+main > section:first-child { padding-top: 72px; }
 .label {
-  font-family: "Marcellus", serif;
-  font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase;
+  font-family: var(--inscribe);
+  font-size: 0.78rem; letter-spacing: 0.32em; text-transform: uppercase;
   color: var(--lamp);
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 46px;
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 48px;
 }
-.label::after { content: ""; height: 1px; flex: 1; background: var(--stone-edge); }
+.label::before {
+  content: ""; width: 7px; height: 7px; flex: none; transform: rotate(45deg);
+  border: 1px solid var(--lamp);
+}
+.label::after { content: ""; height: 1px; flex: 1; background: linear-gradient(90deg, var(--stone-edge), transparent); }
 h2 {
-  font-family: "Marcellus", serif; font-weight: 400;
-  font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.25; margin-bottom: 8px;
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(2rem, 3.8vw, 2.85rem); line-height: 1.12; letter-spacing: -0.005em;
+  margin-bottom: 10px;
 }
-h3 { font-family: "Marcellus", serif; font-weight: 400; }
+h3 { font-family: var(--serif); font-weight: 600; }
+p.lead { font-size: 1.1rem; }
+
+/* ---------- Carved-niche framing for images ---------- */
+.cover-img {
+  width: 100%; max-width: 320px; display: block; margin: 0 auto;
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1px var(--stone-edge),
+    0 0 0 9px var(--basalt),
+    0 0 0 10px rgba(229, 156, 82, 0.32),
+    0 0 90px rgba(229, 156, 82, 0.2),
+    0 40px 70px rgba(0, 0, 0, 0.6);
+  transition: transform .5s var(--ease), box-shadow .5s ease;
+}
+a:hover > .cover-img { transform: translateY(-4px); }
 
 /* ---------- Book layouts ---------- */
 .book-grid {
   display: grid;
   grid-template-columns: 320px 1fr;
-  gap: 64px;
+  gap: 80px;
   align-items: start;
 }
-@media (max-width: 820px) { .book-grid { grid-template-columns: 1fr; gap: 44px; } }
+@media (max-width: 820px) { .book-grid { grid-template-columns: 1fr; gap: 56px; } }
+@media (min-width: 821px) { .book-grid > .cover-img { position: sticky; top: 110px; } }
 
-.cover-img {
-  width: 100%; max-width: 320px; display: block; margin: 0 auto;
-  border: 1px solid var(--stone-edge);
-  box-shadow: 0 0 70px rgba(229, 156, 82, 0.16), 0 30px 60px rgba(0,0,0,0.6);
-}
-
-.book-copy .subtitle { font-style: italic; color: var(--sandstone-dim); font-size: 1.2rem; margin-bottom: 30px; }
-.book-copy p { margin-bottom: 20px; max-width: 62ch; }
+.book-copy .subtitle { font-family: var(--serif); font-style: italic; color: var(--sandstone-dim); font-size: 1.4rem; line-height: 1.45; margin-bottom: 30px; }
+.book-copy p { margin-bottom: 22px; max-width: 64ch; }
 .pull {
-  border-left: 2px solid var(--lamp);
-  padding-left: 22px; margin: 32px 0;
-  font-style: italic; font-size: 1.22rem; color: var(--sandstone);
+  position: relative;
+  border-left: 0;
+  padding: 26px 30px 26px 34px; margin: 36px 0;
+  font-family: var(--serif);
+  font-style: italic; font-size: 1.55rem; line-height: 1.4; color: var(--sandstone);
   max-width: 54ch;
+  background: linear-gradient(90deg, rgba(229,156,82,.08), transparent 80%);
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
-.meta-row { display: flex; flex-wrap: wrap; gap: 12px 36px; margin-top: 34px; font-size: 0.95rem; color: var(--sandstone-dim); }
-.meta-row strong { color: var(--sandstone); font-weight: 500; }
+.pull::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, transparent, var(--lamp) 20%, var(--lamp) 80%, transparent);
+}
+.meta-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px;
+  margin-top: 38px; font-size: 0.92rem; color: var(--sandstone-dim);
+  background: var(--stone-edge); border: 1px solid var(--stone-edge); border-radius: var(--radius); overflow: hidden;
+}
+.meta-row > span { background: rgba(19, 28, 43, 0.92); padding: 14px 18px; }
+.meta-row strong {
+  display: block; color: var(--lamp); font-weight: 500;
+  font-family: var(--inscribe); font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 2px;
+}
 
-/* ---------- Themes ---------- */
-.themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--stone-edge); border: 1px solid var(--stone-edge); }
+/* ---------- Cards (themes, stores, specimens, works) ---------- */
+.themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 @media (max-width: 820px) { .themes { grid-template-columns: 1fr; } }
-.theme { background: var(--basalt); padding: 36px 30px; }
-.theme h3 { font-size: 1.2rem; margin-bottom: 12px; color: var(--lamp); }
-.theme p { font-size: 1.02rem; color: var(--sandstone-dim); }
+.theme, .work, .store, .ix-specimen {
+  position: relative;
+  border: 1px solid var(--stone-edge);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(19, 28, 43, 0.92), rgba(15, 22, 35, 0.92));
+  transition: border-color .3s ease, transform .35s var(--ease), box-shadow .35s ease, background .3s ease;
+}
+.theme::before, .work::before, .store::before, .ix-specimen::before {   /* lamp-lit top edge */
+  content: ""; position: absolute; left: 18px; right: 18px; top: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lamp), transparent);
+  opacity: .35; transition: opacity .3s ease;
+}
+.theme:hover, .work:hover, .store:hover, .ix-specimen:hover {
+  border-color: rgba(229, 156, 82, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 44px rgba(0,0,0,.45), 0 0 40px rgba(229,156,82,.08);
+}
+.theme:hover::before, .work:hover::before, .store:hover::before, .ix-specimen:hover::before { opacity: 1; }
+
+.theme { padding: 38px 32px 34px; }
+.theme::after {                     /* carved corner mark */
+  content: ""; position: absolute; top: 16px; right: 16px; width: 8px; height: 8px;
+  transform: rotate(45deg); border: 1px solid rgba(229,156,82,.5);
+}
+.theme h3 { font-size: 1.5rem; line-height: 1.2; margin-bottom: 12px; color: var(--lamp); }
+.theme p { font-size: 0.98rem; color: var(--sandstone-dim); }
 
 /* ---------- Store links ---------- */
 .store-note { max-width: 62ch; color: var(--sandstone-dim); margin-bottom: 44px; }
-.stores { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.stores { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
 .store {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  border: 1px solid var(--stone-edge);
   padding: 18px 22px;
   color: var(--sandstone);
-  transition: border-color 0.2s ease, background 0.2s ease;
 }
-.store:hover { border-color: var(--lamp-deep); background: var(--stone); color: var(--sandstone); }
-.store .flag { font-size: 1.3rem; margin-right: 4px; }
-.store .country { font-family: "Marcellus", serif; font-size: 0.98rem; letter-spacing: 0.05em; }
-.store .domain { font-size: 0.85rem; color: var(--sandstone-dim); }
+.store:hover { color: var(--sandstone); }
+.store .flag { font-size: 1.3rem; margin-right: 6px; }
+.store .country { font-weight: 500; font-size: 0.98rem; letter-spacing: 0.01em; }
+.store .domain { font-size: 0.82rem; color: var(--sandstone-dim); }
 
 /* ---------- Author ---------- */
 .author-grid {
-  display: grid; grid-template-columns: 300px 1fr;
-  gap: 56px; align-items: start;
+  display: grid; grid-template-columns: 320px 1fr;
+  gap: 72px; align-items: start;
 }
-@media (max-width: 820px) { .author-grid { grid-template-columns: 1fr; gap: 36px; } }
-.author-photo-frame {
-  padding: 10px;
+@media (max-width: 820px) { .author-grid { grid-template-columns: 1fr; gap: 44px; } }
+.author-photo-frame {              /* a temple niche: arched top, carved double line */
+  position: relative;
+  padding: 12px 12px 0;
   border: 1px solid var(--stone-edge);
-  background: var(--stone);
-  max-width: 300px;
+  border-radius: 160px 160px var(--radius) var(--radius);
+  background: linear-gradient(180deg, rgba(229,156,82,.10), var(--stone) 40%);
+  max-width: 320px;
   margin: 0 auto;
+  box-shadow: 0 0 0 6px var(--basalt), 0 0 0 7px rgba(229,156,82,.22), 0 30px 70px rgba(0,0,0,.55), 0 0 80px rgba(229,156,82,.1);
 }
-.author-photo-frame img { width: 100%; display: block; }
+.author-photo-frame img {
+  width: 100%; display: block;
+  border-radius: 148px 148px 2px 2px;
+}
 .author-photo-frame figcaption {
-  font-family: "Marcellus", serif;
-  font-size: 0.78rem; letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--sandstone-dim); text-align: center; padding: 14px 4px 6px;
+  font-family: var(--inscribe);
+  font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--sandstone-dim); text-align: center; padding: 14px 4px 14px;
 }
-.author-copy p { margin-bottom: 20px; max-width: 62ch; }
+.author-copy p { margin-bottom: 22px; max-width: 64ch; }
 
 /* ---------- Home teasers ---------- */
 .teaser-grid {
-  display: grid; grid-template-columns: 260px 1fr; gap: 56px; align-items: center;
+  display: grid; grid-template-columns: 280px 1fr; gap: 80px; align-items: center;
 }
-@media (max-width: 820px) { .teaser-grid { grid-template-columns: 1fr; gap: 40px; } }
-.teaser-grid .cover-img, .teaser-grid .author-photo-frame { max-width: 260px; }
-.teaser-copy p { margin-bottom: 20px; max-width: 60ch; color: var(--sandstone-dim); }
+@media (max-width: 820px) { .teaser-grid { grid-template-columns: 1fr; gap: 48px; } }
+.teaser-grid .cover-img, .teaser-grid .author-photo-frame { max-width: 270px; }
+.teaser-copy p { margin-bottom: 20px; max-width: 62ch; color: var(--sandstone-dim); }
 .teaser-copy p.lead { color: var(--sandstone); }
 .text-link {
-  font-family: "Marcellus", serif;
-  font-size: 0.9rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--inscribe);
+  font-size: 0.84rem; letter-spacing: 0.16em; text-transform: uppercase;
+  display: inline-flex; align-items: center;
 }
-.text-link::after { content: " \2192"; }
+.text-link::after { content: "\2192"; margin-left: .55em; transition: transform .25s var(--ease); }
+.text-link:hover::after, .work:hover .text-link::after { transform: translateX(4px); }
 
 /* ---------- Page CTA band ---------- */
 .cta-band {
+  position: relative;
   text-align: center;
-  padding: 80px 24px;
-  border-top: 1px solid var(--stone-edge);
+  padding: 104px 24px 96px;
   background:
-    radial-gradient(ellipse 50% 60% at 50% 100%, rgba(229, 156, 82, 0.10), transparent 70%),
-    var(--basalt);
+    radial-gradient(ellipse 50% 70% at 50% 100%, rgba(229, 156, 82, 0.14), transparent 70%),
+    linear-gradient(180deg, var(--basalt), #0e1523);
+  border-top: 1px solid var(--stone-edge);
+}
+.cta-band::before {                 /* toran garland hung along the top */
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 18px;
+  background: var(--toran) center top / 40px 18px repeat-x;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
 }
 .cta-band h2 { margin-bottom: 14px; }
-.cta-band p { color: var(--sandstone-dim); max-width: 50ch; margin: 0 auto 34px; }
+.cta-band p { color: var(--sandstone-dim); max-width: 50ch; margin: 0 auto 36px; }
 
 /* ---------- Footer ---------- */
 footer {
+  position: relative;
   border-top: 1px solid var(--stone-edge);
-  padding: 54px 24px;
+  padding: 64px 24px 56px;
   text-align: center;
   color: var(--sandstone-dim);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
+  background: #090e17;
 }
-footer .brand { display: block; margin-bottom: 14px; }
-.footer-nav { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; font-size: 0.92rem; }
+footer .brand { display: inline-flex; margin-bottom: 18px; }
+.footer-nav { display: flex; gap: 8px 26px; justify-content: center; flex-wrap: wrap; margin-bottom: 22px; font-size: 0.88rem; }
 .footer-nav a { color: var(--sandstone-dim); }
 .footer-nav a:hover { color: var(--lamp); }
 
@@ -242,61 +407,73 @@ footer .brand { display: block; margin-bottom: 14px; }
    parchment ground of intercognix.com. On this night-stone palette the
    brown half would disappear, so the mark always sits on its own
    parchment plate rather than being recoloured. */
-.ix-plate {
-  background: #efe6d0;
-  border: 1px solid var(--stone-edge);
-  padding: 34px 26px 20px;
-  max-width: 260px; margin: 0 auto;
+.ix-plate, .bx-plate {
+  border-radius: var(--radius);
+  padding: 40px 28px 22px;
+  max-width: 270px; margin: 0 auto;
   text-align: center;
-  box-shadow: 0 0 70px rgba(229, 156, 82, 0.12), 0 30px 60px rgba(0,0,0,0.55);
+  box-shadow:
+    0 0 0 1px var(--stone-edge),
+    0 0 0 9px var(--basalt),
+    0 0 0 10px rgba(229, 156, 82, 0.3),
+    0 0 80px rgba(229, 156, 82, 0.14),
+    0 34px 64px rgba(0,0,0,0.55);
+  transition: transform .5s var(--ease);
 }
+a:hover > .ix-plate, a:hover > .bx-plate { transform: translateY(-4px); }
+.ix-plate { background: radial-gradient(circle at 50% 30%, #f5edd9, #e9dec4); }
 a.ix-plate-link { display: block; }
 .ix-plate img { width: 100%; max-width: 190px; height: auto; display: block; margin: 0 auto; }
 .ix-plate figcaption {
-  font-family: "Marcellus", serif;
-  font-size: 0.74rem; letter-spacing: 0.24em; text-transform: uppercase;
-  color: #6f5f4b; padding-top: 18px;
+  font-family: var(--inscribe);
+  font-size: 0.72rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: #6f5f4b; padding-top: 20px;
 }
 .ix-hero-mark {
   display: inline-block;
   background: #efe6d0;
-  padding: 14px 20px;
+  padding: 14px 22px;
   margin-bottom: 36px;
-  box-shadow: 0 0 50px rgba(229, 156, 82, 0.18);
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 6px var(--basalt), 0 0 0 7px rgba(229,156,82,.35), 0 0 60px rgba(229, 156, 82, 0.22);
 }
 .ix-hero-mark img { width: 104px; height: auto; display: block; }
 
 .definition {
-  border-left: 2px solid var(--lamp);
-  padding: 4px 0 4px 22px; margin: 30px 0 10px;
-  max-width: 56ch;
+  position: relative;
+  padding: 22px 26px 22px 30px; margin: 32px 0 12px;
+  max-width: 58ch;
+  background: linear-gradient(90deg, rgba(229,156,82,.08), transparent 85%);
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
-.definition .term { font-family: "Marcellus", serif; font-size: 1.35rem; letter-spacing: 0.04em; color: var(--lamp); }
-.definition .pos { font-style: italic; color: var(--sandstone-dim); margin-left: 8px; }
-.definition p { margin: 8px 0 0; font-size: 1.2rem; font-style: italic; color: var(--sandstone); }
-.definition .etym { font-size: 0.95rem; font-style: normal; color: var(--sandstone-dim); }
+.definition::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, transparent, var(--lamp) 20%, var(--lamp) 80%, transparent);
+}
+.definition .term { font-family: var(--serif); font-weight: 600; font-size: 1.7rem; letter-spacing: 0.01em; color: var(--lamp); }
+.definition .pos { font-family: var(--serif); font-style: italic; color: var(--sandstone-dim); margin-left: 8px; font-size: 1.1rem; }
+.definition p { margin: 8px 0 0; font-family: var(--serif); font-size: 1.4rem; line-height: 1.45; font-style: italic; color: var(--sandstone); }
+.definition .etym { font-family: var(--sans); font-size: 0.9rem; font-style: normal; color: var(--sandstone-dim); }
 
 .themes.four { grid-template-columns: repeat(2, 1fr); }
 @media (max-width: 820px) { .themes.four { grid-template-columns: 1fr; } }
 .theme .step {
   display: block;
-  font-family: "Marcellus", serif;
-  font-size: 0.78rem; letter-spacing: 0.28em; text-transform: uppercase;
+  font-family: var(--inscribe);
+  font-size: 0.74rem; letter-spacing: 0.3em; text-transform: uppercase;
   color: var(--sandstone-dim); margin-bottom: 10px;
 }
 
-.ix-specimens { display: grid; gap: 14px; margin: 10px 0 34px; max-width: 760px; }
+.ix-specimens { display: grid; gap: 14px; margin: 10px 0 36px; max-width: 780px; }
 .ix-specimen {
   display: grid; grid-template-columns: 5.5rem 1fr; gap: 6px 22px; align-items: baseline;
-  border: 1px solid var(--stone-edge);
-  padding: 20px 24px;
+  padding: 22px 26px;
   color: var(--sandstone);
-  transition: border-color 0.2s ease, background 0.2s ease;
 }
-.ix-specimen:hover { border-color: var(--lamp-deep); background: var(--stone); color: var(--sandstone); }
-.ix-specimen .no { font-family: "Marcellus", serif; color: var(--lamp); letter-spacing: 0.06em; }
-.ix-specimen .t { font-family: "Marcellus", serif; font-size: 1.12rem; }
-.ix-specimen .halls { grid-column: 2; font-size: 0.95rem; font-style: italic; color: var(--sandstone-dim); }
+.ix-specimen:hover { color: var(--sandstone); }
+.ix-specimen .no { font-family: var(--inscribe); color: var(--lamp); letter-spacing: 0.08em; font-size: 0.92rem; }
+.ix-specimen .t { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; line-height: 1.3; }
+.ix-specimen .halls { grid-column: 2; font-family: var(--serif); font-size: 1.08rem; font-style: italic; color: var(--sandstone-dim); }
 @media (max-width: 560px) {
   .ix-specimen { grid-template-columns: 1fr; }
   .ix-specimen .halls { grid-column: 1; }
@@ -308,43 +485,43 @@ a.ix-plate-link { display: block; }
    The home page opens on the author, with his bodies of work given
    equal weight beneath the name. The book's eye motif stays on the book
    itself; the hero carries no single work's imagery. */
-header.hero.person { padding: 96px 24px 84px; }
+header.hero.person { padding: 112px 24px 108px; }
 header.hero.person h1 { max-width: none; }
 .works {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px; max-width: 900px; margin: 56px auto 0; text-align: left;
+  gap: 22px; max-width: 900px; margin: 64px auto 0; text-align: left;
 }
 @media (max-width: 780px) { .works { grid-template-columns: 1fr; max-width: 520px; } }
 .work {
   display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 24px; align-items: center;
-  border: 1px solid var(--stone-edge);
-  background: rgba(19, 28, 43, 0.72);
-  padding: 22px 24px;
+  background: linear-gradient(180deg, rgba(19, 28, 43, 0.78), rgba(11, 17, 28, 0.78));
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  padding: 26px 26px;
   color: var(--sandstone);
-  transition: border-color 0.2s ease, background 0.2s ease;
 }
-.work:hover { border-color: var(--lamp-deep); background: var(--stone); color: var(--sandstone); }
+.work:hover { color: var(--sandstone); }
 .work:hover .text-link { color: var(--sandstone); }
 .work-thumb {
   width: 92px; height: 138px;               /* the cover's 2:3, so both cards sit level */
   display: flex; align-items: center; justify-content: center;
-  border: 1px solid var(--stone-edge);
-  box-shadow: 0 0 30px rgba(229, 156, 82, 0.12), 0 14px 28px rgba(0,0,0,0.5);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px var(--stone-edge), 0 0 0 5px var(--basalt), 0 0 0 6px rgba(229,156,82,.25), 0 0 30px rgba(229, 156, 82, 0.14), 0 14px 28px rgba(0,0,0,0.5);
+  overflow: hidden;
 }
 .work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .work-thumb.ix { background: #efe6d0; }     /* the mark needs its parchment ground */
 .work-thumb.ix img { width: 74px; height: auto; object-fit: contain; }
 .work-copy { display: block; }
 .work-kind {
-  display: block; font-family: "Marcellus", serif;
-  font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase;
+  display: block; font-family: var(--inscribe);
+  font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
   color: var(--lamp); margin-bottom: 6px;
 }
-.work-title { display: block; font-family: "Marcellus", serif; font-size: 1.45rem; line-height: 1.25; margin-bottom: 8px; }
-.work-line { display: block; font-size: 1rem; line-height: 1.55; color: var(--sandstone-dim); margin-bottom: 12px; }
-.work .text-link { display: inline-block; color: var(--lamp); }
+.work-title { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.7rem; line-height: 1.15; margin-bottom: 10px; }
+.work-line { display: block; font-size: 0.94rem; line-height: 1.6; color: var(--sandstone-dim); margin-bottom: 14px; }
+.work .text-link { display: inline-flex; color: var(--lamp); }
 @media (max-width: 420px) {
-  .work { grid-template-columns: 72px minmax(0, 1fr); gap: 16px; padding: 18px; }
+  .work { grid-template-columns: 72px minmax(0, 1fr); gap: 18px; padding: 20px 18px; }
   .work-thumb { width: 72px; height: 108px; }
   .work-thumb.ix img { width: 58px; }
 }
@@ -352,26 +529,21 @@ header.hero.person h1 { max-width: none; }
 /* ---------- Bizcognix ----------
    The official mark is a navy rounded square, already built for a dark
    field, so it sits directly on this palette — no parchment plate. */
-.bx-plate {
-  background: var(--stone);
-  border: 1px solid var(--stone-edge);
-  padding: 34px 26px 20px;
-  max-width: 260px; margin: 0 auto;
-  text-align: center;
-  box-shadow: 0 0 70px rgba(229, 156, 82, 0.12), 0 30px 60px rgba(0,0,0,0.55);
-}
+.bx-plate { background: radial-gradient(circle at 50% 30%, #18233a, var(--stone)); }
 a.bx-plate-link { display: block; }
 .bx-plate img { width: 100%; max-width: 132px; height: auto; display: block; margin: 0 auto; }
 .bx-plate figcaption {
-  font-family: "Marcellus", serif;
-  font-size: 0.74rem; letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--sandstone-dim); padding-top: 18px;
+  font-family: var(--inscribe);
+  font-size: 0.72rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--sandstone-dim); padding-top: 20px;
 }
 .bx-hero-mark {
   display: inline-block;
   margin-bottom: 36px;
+  border-radius: 14px;
+  box-shadow: 0 0 0 6px var(--basalt), 0 0 0 7px rgba(229,156,82,.3), 0 0 60px rgba(229,156,82,.2);
 }
-.bx-hero-mark img { width: 72px; height: auto; display: block; }
+.bx-hero-mark img { width: 72px; height: auto; display: block; border-radius: 12px; }
 
 .work-thumb.bx { background: #0b1f3a; }
 .work-thumb.bx img { width: 64px; height: auto; object-fit: contain; }
@@ -379,12 +551,28 @@ a.bx-plate-link { display: block; }
 /* Three works share the person-first hero. On a wide screen the cards
    stack the thumb above the copy so each column stays readable; below
    980px they return to the side-by-side card used for two works. */
-.works.three { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1080px; }
+.works.three { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1120px; }
 @media (min-width: 981px) {
-  .works.three .work { grid-template-columns: 1fr; gap: 18px; align-items: start; justify-items: center; text-align: center; }
+  .works.three .work { grid-template-columns: 1fr; gap: 22px; align-items: start; justify-items: center; text-align: center; padding: 34px 28px 30px; }
 }
-@media (max-width: 980px) { .works.three { grid-template-columns: 1fr; max-width: 520px; } }
+@media (max-width: 980px) { .works.three { grid-template-columns: 1fr; max-width: 560px; } }
 @media (max-width: 420px) { .works.three .work-thumb.bx img { width: 48px; } }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  body { font-size: 1rem; }
+  header.hero { padding: 80px 20px 84px; }
+  header.hero.compact { padding: 72px 20px 80px; }
+  header.hero.person { padding: 76px 20px 88px; }
+  section { padding: 76px 0; }
+  main > section:first-child { padding-top: 56px; }
+  .wrap { padding: 0 20px; }
+  .eyebrow { letter-spacing: 0.26em; gap: 12px; }
+  .eyebrow::before, .eyebrow::after { width: 26px; }
+  .pull { font-size: 1.35rem; padding: 20px 20px 20px 24px; }
+  .label { margin-bottom: 36px; }
+  .cta-band { padding: 84px 20px 80px; }
+}
 
 /* NOTE — every page links this file as styles.css?v=YYYY-MM-DD.
    GitHub Pages lets browsers reuse a cached copy for 10 minutes, so a
