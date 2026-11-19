@@ -327,24 +327,25 @@ a:hover > .cover-img { transform: translateY(-4px); }
   gap: 72px; align-items: start;
 }
 @media (max-width: 820px) { .author-grid { grid-template-columns: 1fr; gap: 44px; } }
-.author-photo-frame {              /* a temple niche: arched top, carved double line */
+.author-photo-frame {              /* clean modern portrait on a warm sandstone card */
   position: relative;
-  padding: 12px 12px 0;
-  border: 1px solid var(--stone-edge);
-  border-radius: 28px 28px var(--radius) var(--radius);
-  background: var(--stone);
   max-width: 320px;
   margin: 0 auto;
-  box-shadow: 0 30px 60px rgba(0,0,0,.5), 0 0 50px rgba(229,156,82,.06);
 }
-.author-photo-frame img {
-  width: 100%; display: block;
-  border-radius: 20px 20px 2px 2px;
+.author-photo {                    /* the photo's white ground becomes a warm sandstone card */
+  display: block; overflow: hidden; isolation: isolate;
+  border-radius: 20px;
+  background: radial-gradient(120% 90% at 50% 15%, #f8f1e2, #e9dbbd 70%, #dcc9a3);
+  box-shadow:
+    0 0 0 1px rgba(229, 156, 82, 0.35),
+    0 24px 50px rgba(0, 0, 0, 0.45),
+    0 0 60px rgba(229, 156, 82, 0.08);
 }
+.author-photo-frame img { width: 100%; display: block; mix-blend-mode: multiply; }
 .author-photo-frame figcaption {
   font-family: var(--inscribe);
-  font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase;
-  color: var(--sandstone-dim); text-align: center; padding: 14px 4px 14px;
+  font-size: 0.7rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--sandstone-dim); text-align: center; padding: 14px 4px 0;
 }
 .author-copy p { margin-bottom: 22px; max-width: 64ch; }
 
