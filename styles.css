@@ -525,26 +525,29 @@ header.hero.person h1 { max-width: none; }
 }
 
 /* ---------- Bizcognix ----------
-   The official mark is a navy rounded square, already built for a dark
-   field, so it sits directly on this palette — no parchment plate. */
-.bx-plate { background: radial-gradient(circle at 50% 30%, #18233a, var(--stone)); }
+   The Pattern Nexus mark (navy + cyan facets) is the light-mode mark
+   used on bizcognix.com. Its navy facets would vanish on night stone,
+   so — like Intercognix — it always sits on its own light plate. */
+.bx-plate { background: radial-gradient(circle at 50% 30%, #fbf8f2, #ece5d6); }
 a.bx-plate-link { display: block; }
-.bx-plate img { width: 100%; max-width: 132px; height: auto; display: block; margin: 0 auto; }
+.bx-plate img { width: 100%; max-width: 112px; height: auto; display: block; margin: 0 auto; }
 .bx-plate figcaption {
   font-family: var(--inscribe);
   font-size: 0.72rem; letter-spacing: 0.26em; text-transform: uppercase;
-  color: var(--sandstone-dim); padding-top: 20px;
+  color: #5d6472; padding-top: 22px;
 }
 .bx-hero-mark {
   display: inline-block;
+  background: #f6f2ea;
+  padding: 14px 18px;
   margin-bottom: 36px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   box-shadow: 0 0 0 1px rgba(229,156,82,.25), 0 0 40px rgba(229,156,82,.1);
 }
-.bx-hero-mark img { width: 72px; height: auto; display: block; border-radius: 12px; }
+.bx-hero-mark img { width: 64px; height: auto; display: block; }
 
-.work-thumb.bx { background: #0b1f3a; }
-.work-thumb.bx img { width: 64px; height: auto; object-fit: contain; }
+.work-thumb.bx { background: #f4efe5; }
+.work-thumb.bx img { width: 68px; height: auto; object-fit: contain; }
 
 /* Three works share the person-first hero. On a wide screen the cards
    stack the thumb above the copy so each column stays readable; below
@@ -554,7 +557,7 @@ a.bx-plate-link { display: block; }
   .works.three .work { grid-template-columns: 1fr; gap: 22px; align-items: start; justify-items: center; text-align: center; padding: 34px 28px 30px; }
 }
 @media (max-width: 980px) { .works.three { grid-template-columns: 1fr; max-width: 560px; } }
-@media (max-width: 420px) { .works.three .work-thumb.bx img { width: 48px; } }
+@media (max-width: 420px) { .works.three .work-thumb.bx img { width: 54px; } }
 
 /* ---------- Small screens ---------- */
 @media (max-width: 600px) {
