@@ -559,6 +559,24 @@ a.bx-plate-link { display: block; }
 @media (max-width: 980px) { .works.three { grid-template-columns: 1fr; max-width: 560px; } }
 @media (max-width: 420px) { .works.three .work-thumb.bx img { width: 54px; } }
 
+/* ---------- Home film ----------
+   The 40-second silent motion-graphics film sits just under the
+   person-first hero. It is lazy-loaded and paused off-screen;
+   visitors who ask for reduced motion see the poster and play it
+   themselves. */
+.film { padding: 8px 0 80px; }
+.film::before { display: none; }
+.film-frame {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--basalt);
+  box-shadow: 0 0 0 1px rgba(229,156,82,.22), 0 30px 60px rgba(0,0,0,.5);
+}
+.film video { display: block; width: 100%; height: auto; background: var(--basalt); vertical-align: top; }
+
+@media (max-width: 600px) { .film { padding: 0 0 56px; } }
+
 /* ---------- Small screens ---------- */
 @media (max-width: 600px) {
   body { font-size: 1rem; }

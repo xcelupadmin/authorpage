@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=2026-11-19e" />
+<link rel="stylesheet" href="styles.css?v=2026-11-21" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -81,6 +81,18 @@
     </a>
   </div>
 </header>
+
+<section class="film" aria-label="A short film of the site's themes">
+  <div class="wrap">
+    <figure class="film-frame">
+      <video id="siteFilm" muted loop playsinline preload="none" poster="site-video-poster.jpg"
+             width="1280" height="720"
+             aria-label="A short, silent motion-graphics film of the site's themes: Jay Gontu, Close Your Eyes to See, Intercognix and Bizcognix, using only graphics and text.">
+        <source data-src="site-video.mp4" type="video/mp4" />
+      </video>
+    </figure>
+  </div>
+</section>
 
 <main>
 
@@ -177,5 +189,29 @@
 </footer>
 
 <script>(function(){var n=document.querySelector(".nav-links"),a=n&&n.querySelector(".active");if(a&&n.scrollWidth>n.clientWidth)n.scrollLeft=a.offsetLeft-(n.clientWidth-a.offsetWidth)/2;})();</script>
+<script>
+(function(){
+  var v=document.getElementById("siteFilm"); if(!v) return;
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function attach(){
+    var s=v.querySelector("source");
+    if(s && !s.getAttribute("src")){ s.src=s.dataset.src; v.load(); }
+  }
+  if(reduce){
+    v.controls=true;
+    v.addEventListener("play", function(){
+      attach();
+      v.addEventListener("loadeddata", function(){ v.play(); }, {once:true});
+    });
+    return;
+  }
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ attach(); v.play().catch(function(){}); }
+      else v.pause();
+    });
+  }, {threshold:0.35}).observe(v);
+})();
+</script>
 </body>
 </html>
