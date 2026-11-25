@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mrgontu.com/sitemap.xml
+Sitemap: https://jaygontu.com/sitemap.xml
